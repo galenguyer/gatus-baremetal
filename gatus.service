@@ -1,0 +1,12 @@
+[Unit]
+Description=Gatus
+After=network.target
+
+[Service]
+User=root
+Type=simple
+ExecStart=/usr/local/sbin/gatus
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

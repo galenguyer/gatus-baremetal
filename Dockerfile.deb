@@ -16,6 +16,7 @@ WORKDIR /root/
 COPY pkg-debian/ pkg-debian/
 COPY --from=builder /app/gatus ./pkg-debian/usr/local/sbin/gatus
 COPY --from=builder /app/config.yaml ./pkg-debian/tmp/gatus.yaml
+COPY --from=builder /app/gatus.service ./pkg-debian/tmp/gatus.service
 COPY --from=builder /app/web/static ./pkg-debian/usr/local/share/gatus/web/static
 RUN sed -i "s/[{][{] VERSION [}][}]/$VERSION/g" ./pkg-debian/DEBIAN/control
 RUN dpkg -b pkg-debian gatus_"$VERSION"_amd64.deb

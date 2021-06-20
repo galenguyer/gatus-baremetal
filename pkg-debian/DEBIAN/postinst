@@ -6,3 +6,11 @@ if [ ! -f "/etc/gatus.yaml" ]; then
     chown root:root /etc/gatus.yaml
     chmod 664 /etc/gatus.yaml 
 fi
+
+# install but do not overwrite systemd service file
+if [ ! -f "/etc/systemd/system/gatus.service" ]; then
+    cp /tmp/gatus.service /etc/systemd/system/gatus.service
+    chown root:root /etc/systemd/system/gatus.service
+    chmod 664 /etc/systemd/system/gatus.service
+    systemctl daemon-reload
+fi
