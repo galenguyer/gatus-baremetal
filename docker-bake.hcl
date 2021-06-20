@@ -1,3 +1,7 @@
+variable "VERSION" {
+    default = "0.1.0"
+}
+
 group "default" {
     targets = ["binary"]
 }
@@ -12,4 +16,7 @@ target "deb" {
     dockerfile = "Dockerfile.deb"
     target = "final"
     output = ["build"]
+    args = {
+        VERSION = VERSION
+    }
 }

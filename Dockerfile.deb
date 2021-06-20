@@ -11,12 +11,15 @@ RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -installsuffix cgo -o gatus
 
 # Run the binary on an empty container
 FROM debian:buster AS deb
+ARG VERSION
 WORKDIR /root/
 COPY pkg-debian/ pkg-debian/
 COPY --from=builder /app/gatus ./pkg-debian/usr/local/sbin/gatus
 COPY --from=builder /app/config.yaml ./pkg-debian/tmp/gatus.yaml
 COPY --from=builder /app/web/static ./pkg-debian/usr/local/share/gatus/web/static
-RUN dpkg -b pkg-debian gatus_0.1.0_amd64.deb
+RUN sed -i "s/[{][{] VERSION [}][}]/$VERSION/g" ./pkg-debian/DEBIAN/control
+RUN dpkg -b pkg-debian gatus_"$VERSION"_amd64.deb
 
 FROM scratch as final
-COPY --from=deb /root/gatus_0.1.0_amd64.deb .
+ARG VERSION
+COPY --from=deb /root/gatus_"$VERSION"_amd64.deb .
