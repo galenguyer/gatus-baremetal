@@ -30,7 +30,7 @@ var (
 
 	// staticFolder is the path to the location of the static folder from the root path of the project
 	// The only reason this is exposed is to allow running tests from a different path than the root path of the project
-	staticFolder = "./web/static"
+	staticFolder = "/usr/local/share/gatus/web/static"
 
 	// server is the http.Server created by Handle.
 	// The only reason it exists is for testing purposes.

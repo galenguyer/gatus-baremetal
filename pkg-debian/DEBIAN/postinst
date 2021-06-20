@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# install but do not overwrite configuration file
+if [ ! -f "/etc/gatus.yaml" ]; then
+    cp /tmp/gatus.yaml /etc/gatus.yaml
+    chown root:root /etc/gatus.yaml
+    chmod 664 /etc/gatus.yaml 
+fi

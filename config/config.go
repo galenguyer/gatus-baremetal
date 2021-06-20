@@ -25,7 +25,7 @@ const (
 
 	// DefaultFallbackConfigurationFilePath is the default fallback path that will be used to search for the
 	// configuration file if DefaultConfigurationFilePath didn't work
-	DefaultFallbackConfigurationFilePath = "config/config.yml"
+	DefaultFallbackConfigurationFilePath = "/etc/gatus.yaml"
 
 	// DefaultAddress is the default address the service will bind to
 	DefaultAddress = "0.0.0.0"

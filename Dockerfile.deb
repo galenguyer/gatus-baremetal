@@ -1,0 +1,22 @@
+# Build the go application into a binary
+FROM golang:alpine as builder
+RUN apk --update add ca-certificates
+WORKDIR /app
+COPY . ./
+RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -installsuffix cgo -o gatus .
+
+# Run Tests inside docker image if you don't have a configured go environment
+#RUN apk update && apk add --virtual build-dependencies build-base gcc
+#RUN go test ./... -mod vendor
+
+# Run the binary on an empty container
+FROM debian:buster AS deb
+WORKDIR /root/
+COPY pkg-debian/ pkg-debian/
+COPY --from=builder /app/gatus ./pkg-debian/usr/local/sbin/gatus
+COPY --from=builder /app/config.yaml ./pkg-debian/tmp/gatus.yaml
+COPY --from=builder /app/web/static ./pkg-debian/usr/local/share/gatus/web/static
+RUN dpkg -b pkg-debian gatus_0.1.0_amd64.deb
+
+FROM scratch as final
+COPY --from=deb /root/gatus_0.1.0_amd64.deb .

@@ -7,3 +7,9 @@ target "binary" {
     target = "binary"
     output = ["build"]
 }
+
+target "deb" {
+    dockerfile = "Dockerfile.deb"
+    target = "final"
+    output = ["build"]
+}
